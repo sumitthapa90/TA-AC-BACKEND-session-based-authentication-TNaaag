@@ -16,10 +16,12 @@ var userSchema = new Schema(
 
 userSchema.pre("save", function (next) {
   if (this.password && this.isModified("password")) {
+    console.log(this, "before");
     bcrypt.hash(this.password, 10, (err, hashed) => {
       if (err) return next(err);
       this.password = hashed;
-      return next();
+      console.log(this, "after");
+      next();
     });
   } else {
     next();
@@ -27,6 +29,7 @@ userSchema.pre("save", function (next) {
 });
 
 userSchema.methods.verifyPassword = function (password, cb) {
+  console.log(password, "password");
   bcrypt.compare(password, this.password, (err, result) => {
     return cb(err, result);
   });
