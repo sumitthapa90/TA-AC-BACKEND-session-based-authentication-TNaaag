@@ -7,7 +7,11 @@
   </head>
   <body>
     <section>
+
         <h2>Login</h2>
+        <% if(error){%>
+          <p><%= error %></p>
+        <%}%>
         <form action="/users/login" method="POST">
           <input type="email" name="email" placeholder="email" />
           <input type="password" name="password" placeholder="password" />
