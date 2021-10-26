@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h2><%= articles.title %></h2>
+    <h2><%= articles.description %></h2>
+    <h2><%= articles.tags %></h2>
+    <h2><%= articles.author %></h2>
+    <h3><%= articles.likes ? articles.likes : 0 %></h3>
+
+    <a href="/articles/<%= articles.id%>/likes"><button>Likes</button></a>
+    <a href="/articles/<%= articles.id%>/edit"><button>Edit</button></a>
+    <a href="/articles/<%= articles.id%>/delete"><button>Delete</button></a>
+    <a href="/articles"><button>Home</button></a>
+
+    <section class="comments">
+      <h3>Comments</h3>
+      <div class="form">
+        <form action="/articles/<%= articles.id %>/comments" method="POST">
+          <textarea
+            name="content"
+            cols="30"
+            rows="10"
+            placeholder="Comments"
+          ></textarea>
+
+          <input type="submit" value="Add Comments" />
+        </form>
+      </div>
+      <% comments.forEach(comment =>{%>
+      <div>
+        <p><%= comment.content %></p>
+        <a href=""><button>Edit</button></a>
+        <a href=""><button>Delete</button></a>
+      </div>
+      <% })%>
+    </section>
+  </body>
+</html>
