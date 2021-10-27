@@ -11,6 +11,9 @@ mongoose.connect("mongodb://localhost/blogApp", (err) => {
 
 var indexRouter = require("./routes/index");
 var articlesRouter = require("./routes/articles");
+var commentsRouter = require("./routes/comments");
+var usersRouter = require("./routes/users");
+
 var app = express();
 
 // view engine setup
@@ -25,6 +28,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/articles", articlesRouter);
+app.use("/comments", commentsRouter);
+app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

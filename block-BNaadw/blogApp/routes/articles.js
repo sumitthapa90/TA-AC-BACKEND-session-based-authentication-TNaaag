@@ -16,24 +16,18 @@ router.get("/new", (req, res) => {
   res.render("AddBlog");
 });
 
-// router.get("/:id", (req, res, next) => {
-//   var id = req.params.id;
-//   Article.findById(id, (err, articles) => {
-//     if (err) return next(err);
-//     res.render("singleDetail", { articles: articles });
-//   });
-// });
-
 router.get("/:id", (req, res, next) => {
   var id = req.params.id;
-  Article.findById(id, (err, articles) => {
-    console.log(err, articles);
-    if (err) return next(err);
-    Comment.find({ articleId: id }, (err, comments) => {
-      console.log(err, comments);
-      res.render("singleDetail", { articles, comments });
+  // Article.findById(id, (err, articles) => {
+  //   if (err) return next(err);
+  //   res.render("singleDetail", { articles: articles });
+  // });
+  Article.findById(id)
+    .populate("comments")
+    .exec((err, articles) => {
+      if (err) return next(err);
+      res.render("singleDetail", {articles});
     });
-  });
 });
 
 router.get("/:id/edit", (req, res, next) => {
@@ -79,5 +73,21 @@ router.get("/:id/likes", (req, res, next) => {
 });
 
 //add comments
+router.post("/:articleId/comments", (req, res, next) => {
+  var articleId = req.params.articleId;
+  console.log(req.body);
+  req.body.articleId = articleId;
+  Comment.create(req.body, (err, comment) => {
+    if (err) return next(err);
+    Article.findByIdAndUpdate(
+      articleId,
+      { $push: { comments: comment } },
+      (err, article) => {
+        if (err) return next(err);
+        res.redirect("/articles/" + articleId);
+      }
+    );
+  });
+});
 
 module.exports = router;
