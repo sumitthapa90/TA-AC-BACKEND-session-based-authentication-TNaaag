@@ -4,6 +4,7 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var session = require("express-session");
 
 mongoose.connect("mongodb://localhost/blogApp", (err) => {
   console.log(err ? err : "connected");
@@ -25,6 +26,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+
+app.use(
+  session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 app.use("/", indexRouter);
 app.use("/articles", articlesRouter);
