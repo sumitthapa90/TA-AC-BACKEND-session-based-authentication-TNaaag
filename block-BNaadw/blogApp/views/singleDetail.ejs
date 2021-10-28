@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body>
+    <h2>Single Detail Page</h2>
+    <div>
+      <h2><%= articles.title %></h2>
+      <p><%= articles.description %></p>
+      <p><%= articles.tags %></p>
+      <p><%= articles.author %></p>
+      <h3><%= articles.likes ? articles.likes : 0 %></h3>
+    </div>
+
+    <div>
+      <a href="/articles/<%= articles.id%>/likes"><button>Likes</button></a>
+      <a href="/articles/<%= articles.id%>/edit"><button>Edit</button></a>
+      <a href="/articles/<%= articles.id%>/delete"><button>Delete</button></a>
+      <a href="/articles"><button>Home</button></a>
+    </div>
+
+    <section class="comments">
+      <div>
+        <form action="/articles/<%= articles.id%>/comments" method="POST">
+          <textarea
+            name="content"
+            cols="30"
+            rows="10"
+            placeholder="Comments"
+          ></textarea>
+          <div>
+            <input type="submit" value="Add Comments" />
+          </div>
+        </form>
+      </div>
+
+      <div>
+        <% articles.comments.forEach(comment =>{%>
+        <p><%= comment.content %></p>
+
+        <a href="/comments/<%= comment.id %>/edit"><button>Edit</button></a>
+        <a href="/comments/<%= comment.id %>/delete"><button>Delete</button></a>
+        <% })%>
+      </div>
+    </section>
+  </body>
+</html>
